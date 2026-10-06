@@ -1,0 +1,164 @@
+/* =========================================================
+           THEME VARIABLES
+           ========================================================= */
+        :root {
+            --clock-bg-center: #d9edf2;   /* Light cyan center */
+            --clock-bg-edge: #87b6c4;     /* Darker blue edge */
+            --clock-rim: #111111;         /* Black outer rim */
+            --number-color: #111111;      /* Black numbers */
+            --dot-color: #111111;         /* Black minute dots */
+            --hand-color: #1a1a1a;        /* Black hands */
+            --hand-shadow: rgba(0, 0, 0, 0.4);
+            --clock-size: clamp(280px, 80vw, 450px);
+        }
+
+        /* --- Reset --- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: 'Times New Roman', Times, serif; /* Classic serif font */
+        }
+
+        /* =========================================================
+           CLOCK CONTAINER
+           ========================================================= */
+        .clock {
+            position: relative;
+            width: var(--clock-size);
+            height: var(--clock-size);
+            border-radius: 50%;
+            /* 3D Rim and Glass Face */
+            background: radial-gradient(
+                circle at 50% 50%,
+                var(--clock-bg-center) 0%,
+                var(--clock-bg-edge) 75%,
+                #6a9aa8 100%
+            );
+            border: 8px solid var(--clock-rim);
+            box-shadow:
+                0 15px 35px rgba(0, 0, 0, 0.6),
+                inset 0 0 25px rgba(0, 0, 0, 0.15),
+                inset 0 0 5px rgba(255, 255, 255, 0.5);
+            /* Center the hands */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Inner subtle ring for depth */
+        .clock::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+        }
+
+        /* =========================================================
+           NUMBERS & MARKERS
+           ========================================================= */
+        .number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: calc(var(--clock-size) * 0.12);
+            font-weight: 600;
+            color: var(--number-color);
+            text-align: center;
+            /* Using transform to position perfectly around the dial */
+            transform-origin: center center;
+            /* Offset to center the number on its rotation point */
+            margin-left: calc(var(--clock-size) * -0.06);
+            margin-top: calc(var(--clock-size) * -0.06);
+            width: calc(var(--clock-size) * 0.12);
+            height: calc(var(--clock-size) * 0.12);
+            line-height: calc(var(--clock-size) * 0.12);
+            /* The text must be upright, so we counter-rotate */
+            z-index: 2;
+        }
+
+        .dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 3px;
+            height: 3px;
+            background-color: var(--dot-color);
+            border-radius: 50%;
+            transform-origin: center center;
+            margin-left: -1.5px;
+            margin-top: -1.5px;
+            z-index: 1;
+        }
+
+        /* =========================================================
+           CLOCK HANDS
+           ========================================================= */
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: 50% 100%;
+            /* Black color with subtle shadow */
+            background-color: var(--hand-color);
+            filter: drop-shadow(3px 5px 4px var(--hand-shadow));
+            z-index: 5;
+            border-radius: 4px;
+            will-change: transform;
+        }
+
+        /* Hour Hand */
+        .hand-hour {
+            width: calc(var(--clock-size) * 0.035);
+            height: calc(var(--clock-size) * 0.22);
+            margin-left: calc(var(--clock-size) * -0.0175);
+            /* Spade-like shape */
+            -webkit-clip-path: polygon(50% 0%, 90% 25%, 100% 100%, 0% 100%, 10% 25%);
+            clip-path: polygon(50% 0%, 90% 25%, 100% 100%, 0% 100%, 10% 25%);
+        }
+
+        /* Minute Hand */
+        .hand-minute {
+            width: calc(var(--clock-size) * 0.025);
+            height: calc(var(--clock-size) * 0.32);
+            margin-left: calc(var(--clock-size) * -0.0125);
+            /* Sleeker spade shape */
+            -webkit-clip-path: polygon(50% 0%, 85% 20%, 100% 100%, 0% 100%, 15% 20%);
+            clip-path: polygon(50% 0%, 85% 20%, 100% 100%, 0% 100%, 15% 20%);
+        }
+
+        /* Second Hand (Optional, hidden if you want exact match, but good for real use) */
+        .hand-second {
+            width: calc(var(--clock-size) * 0.008);
+            height: calc(var(--clock-size) * 0.38);
+            margin-left: calc(var(--clock-size) * -0.004);
+            background-color: #d32f2f; /* Red second hand */
+            border-radius: 2px;
+            z-index: 6;
+        }
+
+        /* Center Pin */
+        .center-pin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: calc(var(--clock-size) * 0.04);
+            height: calc(var(--clock-size) * 0.04);
+            background-color: var(--hand-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4);
+        }
